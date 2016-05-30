@@ -9,8 +9,8 @@
 require __DIR__ . './../vendor/autoload.php';
 
 
-$email = 'h@hanc.cc';
-$password = 'hanson1994';
+$email = 'your email';
+$password = 'your password';
 $wechat = \Hanccc\WechatOA::getInstance($email, $password);
 $wechat->sendMessage('hello1', 'oYNFUs5-y5MIxf4m2EQ230-5WRkc', 1882317807);
 $wechat = \Hanccc\WechatOA::getInstance($email, $password);
