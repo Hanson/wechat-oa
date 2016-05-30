@@ -52,7 +52,6 @@ class WechatOA
 
     private function login($email, $password)
     {
-
         $response = $this->client->request('post', self::LOGIN_URL, [
             'headers' => [
                 'Host' => 'mp.weixin.qq.com',
@@ -67,7 +66,6 @@ class WechatOA
             ],
         ]);
         $this->parseToken($response);
-        $this->getUserEachPage();
     }
 
     /**
@@ -86,6 +84,42 @@ class WechatOA
     public function getToken()
     {
         return $this->token;
+    }
+    /**
+     * @param $message String 发送的消息
+     * @param $openId String 用户openId
+     * @param null $token String 网页token
+     * @return bool
+     */
+    public function sendMessage($message, $openId, $token = null)
+    {
+        $token = $token ?: $this->token;
+
+        $response = $this->client->request('post', self::SEND_URL, [
+            'headers' => [
+                'Host' => 'mp.weixin.qq.com',
+                'Origin' => 'https://mp.weixin.qq.com',
+                'Referer' => sprintf('https://mp.weixin.qq.com/cgi-bin/singlesendpage?t=message/send&action=index&tofakeid=%s&token=%s&lang=zh_CN', $openId, $token),
+                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36'
+            ],
+            'form_params' => [
+                'token' => $token,
+                'lang' => 'zh_CN',
+                'f' => 'json',
+                'ajax' => '1',
+                'random' => '0.4469808244612068',
+                'type' => '1',
+                'content' => $message,
+                'tofakeid' => $openId,
+                'imgcode' => ''
+            ],
+        ]);
+
+        if (!$response->getStatusCode() == 200)
+            return false;
+
+        $response = json_decode($response->getBody()->getContents(), true);
+        return $response['base_resp']['err_msg'] === 'ok' ? true : false;
     }
 
     /**
@@ -137,42 +171,6 @@ class WechatOA
         }
     }
 
-    /**
-     * @param $message String 发送的消息
-     * @param $openId String 用户openId
-     * @param null $token String 网页token
-     * @return bool
-     */
-    public function sendMessage($message, $openId, $token = null)
-    {
-        $token = $token ?: $this->token;
-
-        $response = $this->client->request('post', self::SEND_URL, [
-            'headers' => [
-                'Host' => 'mp.weixin.qq.com',
-                'Origin' => 'https://mp.weixin.qq.com',
-                'Referer' => sprintf('https://mp.weixin.qq.com/cgi-bin/singlesendpage?t=message/send&action=index&tofakeid=%s&token=%s&lang=zh_CN', $openId, $token),
-                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36'
-            ],
-            'form_params' => [
-                'token' => $token,
-                'lang' => 'zh_CN',
-                'f' => 'json',
-                'ajax' => '1',
-                'random' => '0.4469808244612068',
-                'type' => '1',
-                'content' => $message,
-                'tofakeid' => $openId,
-                'imgcode' => ''
-            ],
-        ]);
-
-        if (!$response->getStatusCode() == 200)
-            return false;
-
-        $response = json_decode($response->getBody()->getContents(), true);
-        return $response['base_resp']['err_msg'] === 'ok' ? true : false;
-    }
 
 
 }
