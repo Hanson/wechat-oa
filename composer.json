@@ -1,8 +1,7 @@
 {
     "name": "hanccc/wechat-oa",
     "require": {
-        "guzzlehttp/guzzle": "^6.2",
-        "monolog/monolog": "^1.19"
+        "guzzlehttp/guzzle": "^6.2"
     },
     "license": "mit",
     "authors": [
