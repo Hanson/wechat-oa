@@ -5,7 +5,6 @@
  * Date: 16/5/30
  * Time: 下午5:36
  */
-#-*-coding:utf-8-*-
 require __DIR__ . './../vendor/autoload.php';
 
 
