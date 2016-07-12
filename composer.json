@@ -1,5 +1,5 @@
 {
-    "name": "hanccc/wechat-oa",
+    "name": "hanson/wechat-oa",
     "require": {
         "guzzlehttp/guzzle": "^6.2"
     },
