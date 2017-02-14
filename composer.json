@@ -1,0 +1,17 @@
+{
+    "name": "hanson/mp-weixin",
+    "authors": [
+        {
+            "name": "Hanson",
+            "email": "h@hanc.cc"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Hanson\\MpWexin\\": "src/"
+        }
+    }
+}
